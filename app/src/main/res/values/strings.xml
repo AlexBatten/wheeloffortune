@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">wheeloffortune</string>
+    <string name="app_name">s211436 Lykkehjulet</string>
+    <string name="category_1">Animal</string>
+    <string name="category_2">City</string>
+    <string name="category_3">Food</string>
+    <string name="category_4">Person</string>
 </resources>

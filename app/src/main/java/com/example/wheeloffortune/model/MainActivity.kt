@@ -1,4 +1,4 @@
-package com.example.wheeloffortune
+package com.example.wheeloffortune.model
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -21,23 +21,24 @@ class MainActivity : ComponentActivity() {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
-                ) {
-                    Greeting("Android")
+                    ) {
+                    MainScreen()
                 }
             }
         }
     }
 }
 
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
 
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
     WheeloffortuneTheme {
-        Greeting("Android")
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = MaterialTheme.colors.background
+        ) {
+            MainScreen()
+        }
     }
 }
