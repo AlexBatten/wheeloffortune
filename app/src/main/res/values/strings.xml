@@ -1,7 +1,18 @@
 <resources>
     <string name="app_name">s211436 Lykkehjulet</string>
-    <string name="category_1">Animal</string>
-    <string name="category_2">City</string>
-    <string name="category_3">Food</string>
-    <string name="category_4">Person</string>
+    <string name="category_animal">Animal</string>
+    <string name="category_city">City</string>
+    <string name="category_food">Food</string>
+    <string name="category_person">Person</string>
+
+    //ANIMAL WORDS
+
+    <string name="word_1">xxx</string>
+
+    //CITY WORDS
+
+    //FOOD WORDS
+
+    //PERSON WORDS
+
 </resources>

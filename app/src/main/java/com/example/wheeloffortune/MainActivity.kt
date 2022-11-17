@@ -1,4 +1,4 @@
-package com.example.wheeloffortune.model
+package com.example.wheeloffortune
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
