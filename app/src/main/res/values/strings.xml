@@ -1,18 +1,48 @@
 <resources>
+
+    // APP NAME
+
     <string name="app_name">s211436 Lykkehjulet</string>
+
+    // PROGRAM STRINGS
+
+    <string name="welcome_message">Welcome to the Wheel of fortune!</string>
+    <string name="play_message">Press the button to play</string>
+    <string name="play_button_text">PLAY GAME</string>
+
+    // CATEGORY
+
     <string name="category_animal">Animal</string>
     <string name="category_city">City</string>
     <string name="category_food">Food</string>
-    <string name="category_person">Person</string>
+    <string name="category_software">Software</string>
 
     //ANIMAL WORDS
 
-    <string name="word_1">xxx</string>
+    <string name="word_animal_1">CAPYBARA</string>
+    <string name="word_animal_2">ZEBRA</string>
+    <string name="word_animal_3">GIRAFFE</string>
+    <string name="word_animal_4">PELICAN</string>
 
     //CITY WORDS
 
+    <string name="word_city_1">COPENHAGEN</string>
+    <string name="word_city_2">BERLIN</string>
+    <string name="word_city_3">AMSTERDAM</string>
+    <string name="word_city_4">OTTAWA</string>
+
     //FOOD WORDS
 
-    //PERSON WORDS
+    <string name="word_food_1">RATATOUILLE</string>
+    <string name="word_food_2">BURGER</string>
+    <string name="word_food_3">RASPBERRY</string>
+    <string name="word_food_4">SPINACH</string>
+
+    //SOFTWARE WORDS
+
+    <string name="word_software_1">JAVA</string>
+    <string name="word_software_2">KOTLIN</string>
+    <string name="word_software_3">PHYTHON</string>
+    <string name="word_software_4">MAPLE</string>
 
 </resources>

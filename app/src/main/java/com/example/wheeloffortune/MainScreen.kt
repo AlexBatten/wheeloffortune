@@ -11,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -30,12 +31,12 @@ fun MainScreen() {
 
 @Composable
 fun WelcomePrompt() {
-        Text(text = "Welcome to the Wheel of fortune! ", fontSize = 20.sp, textAlign = TextAlign.Center, modifier = Modifier.width(400.dp))
+        Text(text = stringResource(R.string.welcome_message), fontSize = 20.sp, textAlign = TextAlign.Center, modifier = Modifier.width(400.dp))
 }
 
 @Composable
 fun PressButtonPrompt() {
-    Text(text = "Press the button to play", fontSize = 20.sp, textAlign = TextAlign.Center, modifier = Modifier.width(400.dp))
+    Text(text = stringResource(R.string.play_message), fontSize = 20.sp, textAlign = TextAlign.Center, modifier = Modifier.width(400.dp))
 }
 
 @Composable
@@ -44,6 +45,6 @@ fun StartGameButton() {
     Button(onClick = {context.startActivity(Intent(context, PlayScreen::class.java))}, colors = ButtonDefaults.buttonColors(backgroundColor = Color.Red), shape = RoundedCornerShape(100.dp), modifier = Modifier
         .height(60.dp)
         .width(350.dp)) {
-        Text(text = "PLAY GAME", Modifier.padding(0.dp,0.dp,10.dp,0.dp), color = Color.White )
+        Text(text = stringResource(R.string.play_button_text), Modifier.padding(0.dp,0.dp,10.dp,0.dp), color = Color.White )
     }
 }
