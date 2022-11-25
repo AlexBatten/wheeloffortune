@@ -7,7 +7,7 @@ class Wheel {
     val brown: Color = Color(0xFF7C4700)
     val orange: Color = Color(0xFFFFA500)
 
-    private val fieldarray = arrayOf(
+    val fieldarray = arrayOf(
         Field(0, true, Color.Black),
         Field(500, false, Color.Yellow),
         Field(600, false, orange),

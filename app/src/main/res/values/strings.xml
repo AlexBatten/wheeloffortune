@@ -9,6 +9,8 @@
     <string name="welcome_message">Welcome to the Wheel of fortune!</string>
     <string name="play_message">Press the button to play</string>
     <string name="play_button_text">PLAY GAME</string>
+    <string name="spin_button_text">SPIN WHEEL</string>
+    <string name="current_category">Your current category is:</string>
 
     // CATEGORY
 

@@ -1,16 +1,56 @@
 package com.example.wheeloffortune.data
 
-import android.content.res.Resources
-import com.example.wheeloffortune.R
-
+import com.example.wheeloffortune.model.Player
+import com.example.wheeloffortune.model.Wheel
 
 class Data {
 
-    private val categoryarray = arrayOf(
-        Resources.getSystem().getString(R.string.category_animal),
-        Resources.getSystem().getString(R.string.category_city),
-        Resources.getSystem().getString(R.string.category_food),
-        Resources.getSystem().getString(R.string.category_software)
+    var player = Player(5,0)
+    var wheel = Wheel()
+    var currentcategory: String = ""
+    var currentword: String = ""
+
+    fun newGame() {
+
+        player.balance = 0
+        player.life = 5
+
+    }
+
+    val categoryarray = arrayOf(
+        "Animal",
+        "City",
+        "Food",
+        "Software"
     )
+
+    val animalarray = arrayOf(
+        "CAPYBARA",
+        "ZEBRA",
+        "GIRAFFE",
+        "PELICAN"
+    )
+
+    val cityarray = arrayOf(
+        "COPENHAGEN",
+        "BERLIN",
+        "AMSTERDAM",
+        "OTTAWA"
+    )
+
+    val foodarray = arrayOf(
+        "RATATOUILLE",
+        "BURGER",
+        "RASPBERRY",
+        "SPINACH"
+    )
+
+    val softwarearray = arrayOf(
+        "JAVA",
+        "KOTLIN",
+        "PHYTHON",
+        "MAPLE"
+    )
+
 
 }

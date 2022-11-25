@@ -42,9 +42,9 @@ fun PressButtonPrompt() {
 @Composable
 fun StartGameButton() {
     val context = LocalContext.current
-    Button(onClick = {context.startActivity(Intent(context, PlayScreen::class.java))}, colors = ButtonDefaults.buttonColors(backgroundColor = Color.Red), shape = RoundedCornerShape(100.dp), modifier = Modifier
+    Button(onClick = {context.startActivity(Intent(context, PlayScreen::class.java))}, colors = ButtonDefaults.buttonColors(backgroundColor = Color.Green), shape = RoundedCornerShape(100.dp), modifier = Modifier
         .height(60.dp)
         .width(350.dp)) {
-        Text(text = stringResource(R.string.play_button_text), Modifier.padding(0.dp,0.dp,10.dp,0.dp), color = Color.White )
+        Text(text = stringResource(R.string.play_button_text), Modifier.padding(0.dp,0.dp,10.dp,0.dp), color = Color.Black )
     }
 }
