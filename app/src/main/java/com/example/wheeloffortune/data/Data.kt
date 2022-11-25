@@ -1,5 +1,6 @@
 package com.example.wheeloffortune.data
 
+import com.example.wheeloffortune.model.Field
 import com.example.wheeloffortune.model.Player
 import com.example.wheeloffortune.model.Wheel
 
@@ -9,13 +10,7 @@ class Data {
     var wheel = Wheel()
     var currentcategory: String = ""
     var currentword: String = ""
-
-    fun newGame() {
-
-        player.balance = 0
-        player.life = 5
-
-    }
+    var currentfield: Int = 0
 
     val categoryarray = arrayOf(
         "Animal",
