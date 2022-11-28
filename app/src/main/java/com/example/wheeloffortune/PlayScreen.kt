@@ -50,6 +50,7 @@ fun Combined() {
         horizontalAlignment = Alignment.CenterHorizontally){
 
         LifeField()
+        BalanceField()
         WordField()
         CategoryField()
         SpinButton()
@@ -72,28 +73,97 @@ fun WordField() {
 
 //TODO: FIX STATE NOT UPDATING WHEN UPDATING LIFE AMOUNT IN DATA
 
-@SuppressLint("UnrememberedMutableState")
 @Composable
 fun LifeField() {
 
-    val lifeui by mutableStateOf(data.player.life)
-    Text(text = stringResource(R.string.lifeamount) + " " + lifeui, fontSize = 20.sp, textAlign = TextAlign.Center, modifier = Modifier.width(400.dp))
+    var lifeui by remember {mutableStateOf(data.player.life)}
+    Text(text = stringResource(R.string.lifeamount) + " " + "$lifeui", fontSize = 20.sp, textAlign = TextAlign.Center, modifier = Modifier.width(400.dp))
+
+    fun decrementlife() {
+        data.player.life = data.player.life-1
+        lifeui = lifeui - 1
+    }
+
+}
+
+@Composable
+fun BalanceField() {
+
+    var balanceui by remember {mutableStateOf(data.player.balance)}
+    Text(text = stringResource(R.string.balanceamount) + " " + "$balanceui", fontSize = 20.sp, textAlign = TextAlign.Center, modifier = Modifier.width(400.dp))
+
+
 }
 
 @Composable
 fun KeyboardField() {
 
+    Column() {
+        Row{
+            KeyboardButton("Q")
+            KeyboardButton("W")
+            KeyboardButton("E")
+            KeyboardButton("R")
+            KeyboardButton("T")
+            KeyboardButton("Y")
+            KeyboardButton("U")
+            KeyboardButton("I")
+            KeyboardButton("O")
+            KeyboardButton("P")
+            KeyboardButton("Å")
+        }
+        Row{
+            KeyboardButton("A")
+            KeyboardButton("S")
+            KeyboardButton("D")
+            KeyboardButton("F")
+            KeyboardButton("G")
+            KeyboardButton("H")
+            KeyboardButton("J")
+            KeyboardButton("K")
+            KeyboardButton("L")
+            KeyboardButton("Æ")
+            KeyboardButton("Ø")
+        }
+        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center){
+            KeyboardButton("Z")
+            KeyboardButton("X")
+            KeyboardButton("C")
+            KeyboardButton("V")
+            KeyboardButton("B")
+            KeyboardButton("N")
+            KeyboardButton("M")
+        }
+    }
+}
+
+@Composable
+fun KeyboardButton(string: String){
+
+    Button(onClick = {
+    }, colors = ButtonDefaults.buttonColors(backgroundColor = Color.DarkGray), shape = RoundedCornerShape(0.dp), modifier = Modifier
+        .height(36.dp)
+        .width(36.dp)) {
+        Text(text = string, Modifier.padding(0.dp,0.dp,0.dp,0.dp), color = Color.White, fontSize = 10.sp)
+    }
+
 }
 
 @Composable
 fun SpinButton() {
-    Button(onClick = {data.currentfield = randomint(data.wheel.fieldarray.size)
-                     data.player.life = data.player.life-1
+    Button(onClick = {
+        data.currentfield = randomint(data.wheel.fieldarray.size)
+        if (data.wheel.fieldarray[data.currentfield].bankrupt){
+            data.player.balance = 0
+        }
                      }, colors = ButtonDefaults.buttonColors(backgroundColor = Color.Green), shape = RoundedCornerShape(100.dp), modifier = Modifier
         .height(60.dp)
         .width(350.dp)) {
         Text(text = stringResource(R.string.spin_button_text), Modifier.padding(0.dp,0.dp,10.dp,0.dp), color = Color.Black )
     }
+
+    Text(text = data.wheel.fieldarray[data.currentfield].point.toString(), fontSize = 20.sp, textAlign = TextAlign.Center, modifier = Modifier.width(400.dp), color = data.wheel.fieldarray[data.currentfield].color)
+
 }
 
 @Preview(showBackground = true)
@@ -128,6 +198,8 @@ fun newGame() {
 
     data.player.balance = 0
     data.player.life = 5
-    data.currentfield = 0
+    data.currentfield = randomint(data.wheel.fieldarray.size)
+
+
 
 }
