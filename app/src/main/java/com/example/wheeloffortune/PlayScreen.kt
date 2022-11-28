@@ -64,10 +64,27 @@ fun CategoryField() {
     Text(text = stringResource(R.string.current_category) + " " + data.currentcategory, fontSize = 20.sp, textAlign = TextAlign.Center, modifier = Modifier.width(400.dp))
 }
 
+//TODO: CREATE AN ARRAY OF WORD BUTTONS THAT CANT BE SEEN,
+
 @Composable
 fun WordField() {
 
+    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center){
+
+    }
+
     Text(text = data.currentword, fontSize = 20.sp, textAlign = TextAlign.Center, modifier = Modifier.width(400.dp))
+
+}
+@Composable
+fun WordButton(string: String){
+
+    Button(onClick = {
+    }, colors = ButtonDefaults.buttonColors(backgroundColor = Color.DarkGray), shape = RoundedCornerShape(0.dp), modifier = Modifier
+        .height(36.dp)
+        .width(36.dp)) {
+        Text(text = string, Modifier.padding(0.dp,0.dp,0.dp,0.dp), color = Color.White, fontSize = 10.sp)
+    }
 
 }
 
