@@ -18,6 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.wheeloffortune.data.Data
+import com.example.wheeloffortune.model.Word
 import com.example.wheeloffortune.ui.theme.WheeloffortuneTheme
 import kotlin.random.Random
 
@@ -49,10 +50,12 @@ fun Combined() {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally){
 
+
         LifeField()
         BalanceField()
-        WordField()
         CategoryField()
+
+        WordField()
         SpinButton()
         KeyboardField()
 
@@ -64,26 +67,24 @@ fun CategoryField() {
     Text(text = stringResource(R.string.current_category) + " " + data.currentcategory, fontSize = 20.sp, textAlign = TextAlign.Center, modifier = Modifier.width(400.dp))
 }
 
-//TODO: CREATE AN ARRAY OF WORD BUTTONS THAT CANT BE SEEN,
+//TODO: HIDE CHAR IF NOT GUESSED
 
 @Composable
 fun WordField() {
 
     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center){
-
+        for (i in data.wordarray.chararray) {
+            WordButton(i)
+        }
     }
-
-    Text(text = data.currentword, fontSize = 20.sp, textAlign = TextAlign.Center, modifier = Modifier.width(400.dp))
 
 }
 @Composable
-fun WordButton(string: String){
-
-    Button(onClick = {
-    }, colors = ButtonDefaults.buttonColors(backgroundColor = Color.DarkGray), shape = RoundedCornerShape(0.dp), modifier = Modifier
+fun WordButton(char: Char){
+    Button(onClick = {/*donothing*/}, colors = ButtonDefaults.buttonColors(backgroundColor = Color.DarkGray), shape = RoundedCornerShape(0.dp), modifier = Modifier
         .height(36.dp)
         .width(36.dp)) {
-        Text(text = string, Modifier.padding(0.dp,0.dp,0.dp,0.dp), color = Color.White, fontSize = 10.sp)
+        Text(text = char.toString(), Modifier.padding(0.dp,0.dp,0.dp,0.dp), color = Color.DarkGray, fontSize = 10.sp)
     }
 
 }
@@ -102,6 +103,8 @@ fun LifeField() {
     }
 
 }
+
+//TODO: FIX STATE NOT UPDATING WHEN UPDATING BALANCE AMOUNT IN DATA
 
 @Composable
 fun BalanceField() {
@@ -158,6 +161,7 @@ fun KeyboardField() {
 fun KeyboardButton(string: String){
 
     Button(onClick = {
+
     }, colors = ButtonDefaults.buttonColors(backgroundColor = Color.DarkGray), shape = RoundedCornerShape(0.dp), modifier = Modifier
         .height(36.dp)
         .width(36.dp)) {
@@ -179,7 +183,7 @@ fun SpinButton() {
         Text(text = stringResource(R.string.spin_button_text), Modifier.padding(0.dp,0.dp,10.dp,0.dp), color = Color.Black )
     }
 
-    Text(text = data.wheel.fieldarray[data.currentfield].point.toString(), fontSize = 20.sp, textAlign = TextAlign.Center, modifier = Modifier.width(400.dp), color = data.wheel.fieldarray[data.currentfield].color)
+    Text(text = "Wheel Field Value: " + data.wheel.fieldarray[data.currentfield].point.toString(), fontSize = 20.sp, textAlign = TextAlign.Center, modifier = Modifier.width(400.dp), color = data.wheel.fieldarray[data.currentfield].color)
 
 }
 
@@ -216,6 +220,7 @@ fun newGame() {
     data.player.balance = 0
     data.player.life = 5
     data.currentfield = randomint(data.wheel.fieldarray.size)
+    data.wordarray = Word(data.currentword.toCharArray(),BooleanArray(data.currentword.length))
 
 
 
