@@ -15,7 +15,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.wheeloffortune.PlayScreen
 
 
 @Composable
@@ -31,12 +30,12 @@ fun MainScreen() {
 
 @Composable
 fun WelcomePrompt() {
-        Text(text = stringResource(R.string.welcome_message), fontSize = 20.sp, textAlign = TextAlign.Center, modifier = Modifier.width(400.dp))
+        Text(text = stringResource(R.string.welcome_message), fontSize = 20.sp, textAlign = TextAlign.Center, modifier = Modifier.width(400.dp), color = Color.White)
 }
 
 @Composable
 fun PressButtonPrompt() {
-    Text(text = stringResource(R.string.play_message), fontSize = 20.sp, textAlign = TextAlign.Center, modifier = Modifier.width(400.dp))
+    Text(text = stringResource(R.string.play_message), fontSize = 20.sp, textAlign = TextAlign.Center, modifier = Modifier.width(400.dp), color = Color.White)
 }
 
 @Composable

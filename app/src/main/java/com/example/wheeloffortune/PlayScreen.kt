@@ -1,9 +1,9 @@
 package com.example.wheeloffortune
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -12,7 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -32,7 +32,7 @@ class PlayScreen : ComponentActivity() {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background
+                    color = Color.DarkGray
                 ) {
                     newGame()
                     Combined()
@@ -50,21 +50,27 @@ fun Combined() {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally){
 
-
         LifeField()
         BalanceField()
-        CategoryField()
 
-        WordField()
+        Row(modifier = Modifier.padding(0.dp,0.dp,0.dp,20.dp)){
+            CategoryField()
+        }
+        Row(modifier = Modifier.padding(0.dp,0.dp,0.dp,50.dp)) {
+            WordField()
+        }
         SpinButton()
-        KeyboardField()
+
+        Row(modifier = Modifier.padding(0.dp,70.dp,0.dp,0.dp)) {
+            KeyboardField()
+        }
 
     }
 }
 
 @Composable
 fun CategoryField() {
-    Text(text = stringResource(R.string.current_category) + " " + data.currentcategory, fontSize = 20.sp, textAlign = TextAlign.Center, modifier = Modifier.width(400.dp))
+    Text(text = stringResource(R.string.current_category) + " " + data.currentcategory, fontSize = 20.sp, textAlign = TextAlign.Center, modifier = Modifier.width(400.dp), color = Color.White)
 }
 
 //TODO: HIDE CHAR IF NOT GUESSED
@@ -81,10 +87,13 @@ fun WordField() {
 }
 @Composable
 fun WordButton(char: Char){
-    Button(onClick = {/*donothing*/}, colors = ButtonDefaults.buttonColors(backgroundColor = Color.DarkGray), shape = RoundedCornerShape(0.dp), modifier = Modifier
+
+    var charactercolor by remember {mutableStateOf(Color.DarkGray)}
+
+    Button(onClick = {/*donothing*/}, colors = ButtonDefaults.buttonColors(backgroundColor = Color.DarkGray), shape = RoundedCornerShape(0.dp), border = BorderStroke(1.dp, Color.White), modifier = Modifier
         .height(36.dp)
         .width(36.dp)) {
-        Text(text = char.toString(), Modifier.padding(0.dp,0.dp,0.dp,0.dp), color = Color.DarkGray, fontSize = 10.sp)
+        Text(text = char.toString(), Modifier.padding(0.dp,0.dp,0.dp,0.dp), color = charactercolor, fontSize = 10.sp)
     }
 
 }
@@ -95,7 +104,7 @@ fun WordButton(char: Char){
 fun LifeField() {
 
     var lifeui by remember {mutableStateOf(data.player.life)}
-    Text(text = stringResource(R.string.lifeamount) + " " + "$lifeui", fontSize = 20.sp, textAlign = TextAlign.Center, modifier = Modifier.width(400.dp))
+    Text(text = stringResource(R.string.lifeamount) + " " + "$lifeui", fontSize = 20.sp, textAlign = TextAlign.Center, modifier = Modifier.width(400.dp), color = Color.White)
 
     fun decrementlife() {
         data.player.life = data.player.life-1
@@ -110,7 +119,7 @@ fun LifeField() {
 fun BalanceField() {
 
     var balanceui by remember {mutableStateOf(data.player.balance)}
-    Text(text = stringResource(R.string.balanceamount) + " " + "$balanceui", fontSize = 20.sp, textAlign = TextAlign.Center, modifier = Modifier.width(400.dp))
+    Text(text = stringResource(R.string.balanceamount) + " " + "$balanceui", fontSize = 20.sp, textAlign = TextAlign.Center, modifier = Modifier.width(400.dp), color = Color.White)
 
 
 }
@@ -162,8 +171,8 @@ fun KeyboardButton(string: String){
 
     Button(onClick = {
 
-    }, colors = ButtonDefaults.buttonColors(backgroundColor = Color.DarkGray), shape = RoundedCornerShape(0.dp), modifier = Modifier
-        .height(36.dp)
+    }, colors = ButtonDefaults.buttonColors(backgroundColor = Color.DarkGray), shape = RoundedCornerShape(0.dp), border = BorderStroke(1.dp, Color.Black),  modifier = Modifier
+        .height(80.dp)
         .width(36.dp)) {
         Text(text = string, Modifier.padding(0.dp,0.dp,0.dp,0.dp), color = Color.White, fontSize = 10.sp)
     }
@@ -172,18 +181,22 @@ fun KeyboardButton(string: String){
 
 @Composable
 fun SpinButton() {
+
+    var fieldvalue by remember { mutableStateOf(data.wheel.fieldarray[data.currentfield].point.toString())}
+
     Button(onClick = {
         data.currentfield = randomint(data.wheel.fieldarray.size)
         if (data.wheel.fieldarray[data.currentfield].bankrupt){
             data.player.balance = 0
         }
+        fieldvalue = data.wheel.fieldarray[data.currentfield].point.toString()
                      }, colors = ButtonDefaults.buttonColors(backgroundColor = Color.Green), shape = RoundedCornerShape(100.dp), modifier = Modifier
         .height(60.dp)
         .width(350.dp)) {
         Text(text = stringResource(R.string.spin_button_text), Modifier.padding(0.dp,0.dp,10.dp,0.dp), color = Color.Black )
     }
 
-    Text(text = "Wheel Field Value: " + data.wheel.fieldarray[data.currentfield].point.toString(), fontSize = 20.sp, textAlign = TextAlign.Center, modifier = Modifier.width(400.dp), color = data.wheel.fieldarray[data.currentfield].color)
+    Text(text = "Wheel Field Value: " + fieldvalue, fontSize = 20.sp, textAlign = TextAlign.Center, modifier = Modifier.width(400.dp), color = data.wheel.fieldarray[data.currentfield].color, style = TextStyle(background = Color.DarkGray))
 
 }
 
@@ -193,7 +206,7 @@ fun PlayScreenPreview() {
     WheeloffortuneTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colors.background
+            color = Color.DarkGray
         ) {
             newGame()
             Combined()
@@ -221,7 +234,5 @@ fun newGame() {
     data.player.life = 5
     data.currentfield = randomint(data.wheel.fieldarray.size)
     data.wordarray = Word(data.currentword.toCharArray(),BooleanArray(data.currentword.length))
-
-
 
 }
