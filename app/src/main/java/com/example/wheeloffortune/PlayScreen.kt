@@ -1,5 +1,6 @@
 package com.example.wheeloffortune
 
+import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -24,6 +25,8 @@ import kotlin.random.Random
 
 var data = Data()
 
+
+
 class PlayScreen : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +37,7 @@ class PlayScreen : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = Color.DarkGray
                 ) {
+
                     newGame()
                     Combined()
                 }
@@ -80,20 +84,25 @@ fun WordField() {
 
     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center){
         for (i in data.wordarray.chararray) {
-            WordButton(i)
+            WordButton(i, Color.DarkGray)
         }
     }
 
 }
 @Composable
-fun WordButton(char: Char){
+fun WordButton(char: Char, characterColor: Color){
 
     var charactercolor by remember {mutableStateOf(Color.DarkGray)}
+    charactercolor = characterColor
 
     Button(onClick = {/*donothing*/}, colors = ButtonDefaults.buttonColors(backgroundColor = Color.DarkGray), shape = RoundedCornerShape(0.dp), border = BorderStroke(1.dp, Color.White), modifier = Modifier
         .height(36.dp)
         .width(36.dp)) {
         Text(text = char.toString(), Modifier.padding(0.dp,0.dp,0.dp,0.dp), color = charactercolor, fontSize = 10.sp)
+    }
+
+    fun changecolor() {
+        charactercolor = Color.White
     }
 
 }
@@ -121,7 +130,6 @@ fun BalanceField() {
     var balanceui by remember {mutableStateOf(data.player.balance)}
     Text(text = stringResource(R.string.balanceamount) + " " + "$balanceui", fontSize = 20.sp, textAlign = TextAlign.Center, modifier = Modifier.width(400.dp), color = Color.White)
 
-
 }
 
 @Composable
@@ -129,52 +137,56 @@ fun KeyboardField() {
 
     Column() {
         Row{
-            KeyboardButton("Q")
-            KeyboardButton("W")
-            KeyboardButton("E")
-            KeyboardButton("R")
-            KeyboardButton("T")
-            KeyboardButton("Y")
-            KeyboardButton("U")
-            KeyboardButton("I")
-            KeyboardButton("O")
-            KeyboardButton("P")
-            KeyboardButton("Å")
+            KeyboardButton('Q')
+            KeyboardButton('W')
+            KeyboardButton('E')
+            KeyboardButton('R')
+            KeyboardButton('T')
+            KeyboardButton('Y')
+            KeyboardButton('U')
+            KeyboardButton('I')
+            KeyboardButton('O')
+            KeyboardButton('P')
+            KeyboardButton('Å')
         }
         Row{
-            KeyboardButton("A")
-            KeyboardButton("S")
-            KeyboardButton("D")
-            KeyboardButton("F")
-            KeyboardButton("G")
-            KeyboardButton("H")
-            KeyboardButton("J")
-            KeyboardButton("K")
-            KeyboardButton("L")
-            KeyboardButton("Æ")
-            KeyboardButton("Ø")
+            KeyboardButton('A')
+            KeyboardButton('S')
+            KeyboardButton('D')
+            KeyboardButton('F')
+            KeyboardButton('G')
+            KeyboardButton('H')
+            KeyboardButton('J')
+            KeyboardButton('K')
+            KeyboardButton('L')
+            KeyboardButton('Æ')
+            KeyboardButton('Ø')
         }
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center){
-            KeyboardButton("Z")
-            KeyboardButton("X")
-            KeyboardButton("C")
-            KeyboardButton("V")
-            KeyboardButton("B")
-            KeyboardButton("N")
-            KeyboardButton("M")
+            KeyboardButton('Z')
+            KeyboardButton('X')
+            KeyboardButton('C')
+            KeyboardButton('V')
+            KeyboardButton('B')
+            KeyboardButton('N')
+            KeyboardButton('M')
         }
     }
 }
 
 @Composable
-fun KeyboardButton(string: String){
+fun KeyboardButton(char: Char){
+
+    //TODO: figure out how to update color of text in wordbuttons from the onlclick.
 
     Button(onClick = {
+        if (data.wordarray.chararray.contains(char)){
 
+        }
     }, colors = ButtonDefaults.buttonColors(backgroundColor = Color.DarkGray), shape = RoundedCornerShape(0.dp), border = BorderStroke(1.dp, Color.Black),  modifier = Modifier
         .height(80.dp)
         .width(36.dp)) {
-        Text(text = string, Modifier.padding(0.dp,0.dp,0.dp,0.dp), color = Color.White, fontSize = 10.sp)
+        Text(text = char.toString(), Modifier.padding(0.dp,0.dp,0.dp,0.dp), color = Color.White, fontSize = 14.sp)
     }
 
 }
