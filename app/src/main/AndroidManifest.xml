@@ -30,6 +30,9 @@
         <activity
             android:name=".PlayScreen"
             ></activity>
+        <activity
+            android:name=".WinScreen"
+            ></activity>
     </application>
 
 </manifest>

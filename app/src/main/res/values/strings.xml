@@ -13,6 +13,9 @@
     <string name="current_category">Your current category is:</string>
     <string name="lifeamount">Lives:</string>
     <string name="balanceamount">Balance:</string>
+    <string name="win">You win with this amount of points:</string>
+    <string name="loss">You lost.</string>
+    <string name="playagain">Play again?</string>
 
     // CATEGORY
 

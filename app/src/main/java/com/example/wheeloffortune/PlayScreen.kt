@@ -1,6 +1,7 @@
 package com.example.wheeloffortune
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -13,6 +14,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
@@ -27,7 +29,6 @@ import kotlin.random.Random
 var data = Data()
 
 
-
 class PlayScreen : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +39,6 @@ class PlayScreen : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = Color.DarkGray
                 ) {
-
                     newGame()
                     Combined()
                 }
@@ -49,13 +49,16 @@ class PlayScreen : ComponentActivity() {
 
 @Composable
 fun Combined() {
+
+    var viewmodel = ViewModel()
+
     Column(modifier = Modifier
         .fillMaxWidth()
         .fillMaxHeight(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally){
 
-        LifeField()
+        LifeField(viewmodel)
         BalanceField()
 
         Row(modifier = Modifier.padding(0.dp,0.dp,0.dp,20.dp)){
@@ -64,10 +67,10 @@ fun Combined() {
         Row(modifier = Modifier.padding(0.dp,0.dp,0.dp,50.dp)) {
             WordField()
         }
-        SpinButton()
+        SpinButton(viewmodel)
 
         Row(modifier = Modifier.padding(0.dp,70.dp,0.dp,0.dp)) {
-            KeyboardField()
+            KeyboardField(viewmodel)
         }
 
     }
@@ -108,18 +111,11 @@ fun WordButton(char: Char, characterColor: Color){
 
 }
 
-//TODO: FIX STATE NOT UPDATING WHEN UPDATING LIFE AMOUNT IN DATA
-
 @Composable
-fun LifeField() {
+fun LifeField(viewmodel: ViewModel) {
 
-    var lifeui by remember {mutableStateOf(data.player.life)}
-    Text(text = stringResource(R.string.lifeamount) + " " + "$lifeui", fontSize = 20.sp, textAlign = TextAlign.Center, modifier = Modifier.width(400.dp), color = Color.White)
-
-    fun decrementlife() {
-        data.player.life = data.player.life-1
-        lifeui = lifeui - 1
-    }
+    var life = viewmodel.life
+    Text(text = stringResource(R.string.lifeamount) + " " + life.value, fontSize = 20.sp, textAlign = TextAlign.Center, modifier = Modifier.width(400.dp), color = Color.White)
 
 }
 
@@ -134,57 +130,69 @@ fun BalanceField() {
 }
 
 @Composable
-fun KeyboardField() {
+fun KeyboardField(viewmodel: ViewModel) {
 
     Column() {
         Row{
-            KeyboardButton('Q')
-            KeyboardButton('W')
-            KeyboardButton('E')
-            KeyboardButton('R')
-            KeyboardButton('T')
-            KeyboardButton('Y')
-            KeyboardButton('U')
-            KeyboardButton('I')
-            KeyboardButton('O')
-            KeyboardButton('P')
-            KeyboardButton('Å')
+            KeyboardButton('Q', viewmodel)
+            KeyboardButton('W', viewmodel)
+            KeyboardButton('E', viewmodel)
+            KeyboardButton('R', viewmodel)
+            KeyboardButton('T', viewmodel)
+            KeyboardButton('Y', viewmodel)
+            KeyboardButton('U', viewmodel)
+            KeyboardButton('I', viewmodel)
+            KeyboardButton('O', viewmodel)
+            KeyboardButton('P', viewmodel)
+            KeyboardButton('Å', viewmodel)
         }
         Row{
-            KeyboardButton('A')
-            KeyboardButton('S')
-            KeyboardButton('D')
-            KeyboardButton('F')
-            KeyboardButton('G')
-            KeyboardButton('H')
-            KeyboardButton('J')
-            KeyboardButton('K')
-            KeyboardButton('L')
-            KeyboardButton('Æ')
-            KeyboardButton('Ø')
+            KeyboardButton('A', viewmodel)
+            KeyboardButton('S', viewmodel)
+            KeyboardButton('D', viewmodel)
+            KeyboardButton('F', viewmodel)
+            KeyboardButton('G', viewmodel)
+            KeyboardButton('H', viewmodel)
+            KeyboardButton('J', viewmodel)
+            KeyboardButton('K', viewmodel)
+            KeyboardButton('L', viewmodel)
+            KeyboardButton('Æ', viewmodel)
+            KeyboardButton('Ø', viewmodel)
         }
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center){
-            KeyboardButton('Z')
-            KeyboardButton('X')
-            KeyboardButton('C')
-            KeyboardButton('V')
-            KeyboardButton('B')
-            KeyboardButton('N')
-            KeyboardButton('M')
+            KeyboardButton('Z', viewmodel)
+            KeyboardButton('X', viewmodel)
+            KeyboardButton('C', viewmodel)
+            KeyboardButton('V', viewmodel)
+            KeyboardButton('B', viewmodel)
+            KeyboardButton('N', viewmodel)
+            KeyboardButton('M', viewmodel)
         }
     }
 }
 
 @Composable
-fun KeyboardButton(char: Char){
-
-    //TODO: figure out how to update color of text in wordbuttons from the onlclick.
+fun KeyboardButton(char: Char, viewmodel: ViewModel){
+    var click by remember {mutableStateOf(true)}
+    val context = LocalContext.current
+    val char = char
 
     Button(onClick = {
+
+        viewmodel.wheelclick.value = true
+
         if (data.wordarray.chararray.contains(char)){
 
+        } else if (data.player.life == 1){
+            context.startActivity(Intent(context, WinScreen::class.java))
+        } else {
+            data.player.life = data.player.life - 1
+            viewmodel.life.value = viewmodel.life.value - 1
         }
-    }, colors = ButtonDefaults.buttonColors(backgroundColor = Color.DarkGray), shape = RoundedCornerShape(0.dp), border = BorderStroke(1.dp, Color.Black), modifier = Modifier
+
+        click = false
+
+    }, colors = ButtonDefaults.buttonColors(backgroundColor = Color.DarkGray), shape = RoundedCornerShape(0.dp), border = BorderStroke(1.dp, Color.Black), enabled = click, modifier = Modifier
         .height(80.dp)
         .width(36.dp)) {
         Text(text = char.toString(), Modifier.padding(0.dp,0.dp,0.dp,0.dp), color = Color.White, fontSize = 14.sp)
@@ -192,9 +200,10 @@ fun KeyboardButton(char: Char){
 
 }
 
+// Is both the spin button and the text displaying the wheel field value
+
 @Composable
-fun SpinButton() {
-    var click by remember {mutableStateOf(false)}
+fun SpinButton(viewmodel: ViewModel) {
     var fieldvalue by remember { mutableStateOf(data.wheel.fieldarray[data.currentfield].point.toString())}
 
     Button(onClick = {
@@ -203,10 +212,10 @@ fun SpinButton() {
             data.player.balance = 0
         }
 
-        click = false
+        viewmodel.wheelclick.value = false
 
         fieldvalue = data.wheel.fieldarray[data.currentfield].point.toString()
-                     }, colors = ButtonDefaults.buttonColors(backgroundColor = Color.Green), shape = RoundedCornerShape(100.dp), enabled = click, modifier = Modifier
+                     }, colors = ButtonDefaults.buttonColors(backgroundColor = Color.Green), shape = RoundedCornerShape(100.dp), enabled = viewmodel.wheelclick.value, modifier = Modifier
         .height(60.dp)
         .width(350.dp)) {
         Text(text = stringResource(R.string.spin_button_text), Modifier.padding(0.dp,0.dp,10.dp,0.dp), color = Color.Black )
@@ -214,6 +223,24 @@ fun SpinButton() {
 
     Text(text = "Wheel Field Value: " + fieldvalue, fontSize = 20.sp, textAlign = TextAlign.Center, modifier = Modifier.width(400.dp), color = data.wheel.fieldarray[data.currentfield].color, style = TextStyle(background = Color.DarkGray))
 
+}
+
+@Composable
+fun EndMessage() {
+    Column(modifier = Modifier
+        .fillMaxWidth()
+        .fillMaxHeight(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally) {
+        Text(
+            text = stringResource(R.string.loss) + stringResource(R.string.playagain),
+            fontSize = 20.sp,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.width(400.dp),
+            color = Color.White
+        )
+        StartGameButton()
+    }
 }
 
 @Preview(showBackground = true)
