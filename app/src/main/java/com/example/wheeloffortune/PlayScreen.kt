@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -95,7 +96,7 @@ fun WordButton(char: Char, characterColor: Color){
     var charactercolor by remember {mutableStateOf(Color.DarkGray)}
     charactercolor = characterColor
 
-    Button(onClick = {/*donothing*/}, colors = ButtonDefaults.buttonColors(backgroundColor = Color.DarkGray), shape = RoundedCornerShape(0.dp), border = BorderStroke(1.dp, Color.White), modifier = Modifier
+    Button(onClick = {/*donothing*/}, colors = ButtonDefaults.buttonColors(backgroundColor = Color.DarkGray), shape = RoundedCornerShape(0.dp), border = BorderStroke(1.dp, Color.White), enabled = true,  modifier = Modifier
         .height(36.dp)
         .width(36.dp)) {
         Text(text = char.toString(), Modifier.padding(0.dp,0.dp,0.dp,0.dp), color = charactercolor, fontSize = 10.sp)
@@ -183,7 +184,7 @@ fun KeyboardButton(char: Char){
         if (data.wordarray.chararray.contains(char)){
 
         }
-    }, colors = ButtonDefaults.buttonColors(backgroundColor = Color.DarkGray), shape = RoundedCornerShape(0.dp), border = BorderStroke(1.dp, Color.Black),  modifier = Modifier
+    }, colors = ButtonDefaults.buttonColors(backgroundColor = Color.DarkGray), shape = RoundedCornerShape(0.dp), border = BorderStroke(1.dp, Color.Black), modifier = Modifier
         .height(80.dp)
         .width(36.dp)) {
         Text(text = char.toString(), Modifier.padding(0.dp,0.dp,0.dp,0.dp), color = Color.White, fontSize = 14.sp)
@@ -193,7 +194,7 @@ fun KeyboardButton(char: Char){
 
 @Composable
 fun SpinButton() {
-
+    var click by remember {mutableStateOf(false)}
     var fieldvalue by remember { mutableStateOf(data.wheel.fieldarray[data.currentfield].point.toString())}
 
     Button(onClick = {
@@ -201,8 +202,11 @@ fun SpinButton() {
         if (data.wheel.fieldarray[data.currentfield].bankrupt){
             data.player.balance = 0
         }
+
+        click = false
+
         fieldvalue = data.wheel.fieldarray[data.currentfield].point.toString()
-                     }, colors = ButtonDefaults.buttonColors(backgroundColor = Color.Green), shape = RoundedCornerShape(100.dp), modifier = Modifier
+                     }, colors = ButtonDefaults.buttonColors(backgroundColor = Color.Green), shape = RoundedCornerShape(100.dp), enabled = click, modifier = Modifier
         .height(60.dp)
         .width(350.dp)) {
         Text(text = stringResource(R.string.spin_button_text), Modifier.padding(0.dp,0.dp,10.dp,0.dp), color = Color.Black )
