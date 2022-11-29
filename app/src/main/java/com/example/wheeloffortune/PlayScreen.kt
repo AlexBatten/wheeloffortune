@@ -7,12 +7,14 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -59,7 +61,7 @@ fun Combined() {
         horizontalAlignment = Alignment.CenterHorizontally){
 
         LifeField(viewmodel)
-        BalanceField()
+        BalanceField(viewmodel)
 
         Row(modifier = Modifier.padding(0.dp,0.dp,0.dp,20.dp)){
             CategoryField()
@@ -122,17 +124,18 @@ fun LifeField(viewmodel: ViewModel) {
 //TODO: FIX STATE NOT UPDATING WHEN UPDATING BALANCE AMOUNT IN DATA
 
 @Composable
-fun BalanceField() {
+fun BalanceField(viewmodel: ViewModel) {
 
-    var balanceui by remember {mutableStateOf(data.player.balance)}
-    Text(text = stringResource(R.string.balanceamount) + " " + "$balanceui", fontSize = 20.sp, textAlign = TextAlign.Center, modifier = Modifier.width(400.dp), color = Color.White)
+
+    Text(text = stringResource(R.string.balanceamount) + " " + viewmodel.balance.value, fontSize = 20.sp, textAlign = TextAlign.Center, modifier = Modifier.width(400.dp), color = Color.White)
 
 }
 
 @Composable
 fun KeyboardField(viewmodel: ViewModel) {
 
-    Column() {
+    Column(modifier = Modifier.alpha(viewmodel.keyboardvisibility.value)
+    ) {
         Row{
             KeyboardButton('Q', viewmodel)
             KeyboardButton('W', viewmodel)
@@ -180,14 +183,35 @@ fun KeyboardButton(char: Char, viewmodel: ViewModel){
     Button(onClick = {
 
         viewmodel.wheelclick.value = true
+        viewmodel.keyboardvisibility.value = 0f
 
         if (data.wordarray.chararray.contains(char)){
 
+            for (i in data.wordarray.chararray.indices) {
+                if (data.wordarray.chararray[i] == char){
+                    data.wordarray.guessed[i] = true
+                    data.player.balance = data.player.balance + data.wheel.fieldarray[data.currentfield].point
+                    viewmodel.balance.value = data.player.balance
+                }
+
+            }
+
+            // WIN CONDITION
+
+            if (!data.wordarray.guessed.contains(false)){
+                context.startActivity(Intent(context, WinScreen::class.java))
+            }
+
         } else if (data.player.life == 1){
-            context.startActivity(Intent(context, WinScreen::class.java))
+            context.startActivity(Intent(context, LooseScreen::class.java))
         } else {
             data.player.life = data.player.life - 1
             viewmodel.life.value = viewmodel.life.value - 1
+        }
+
+        if (data.wheel.fieldarray[data.currentfield].bankrupt){
+            data.player.balance = 0
+            viewmodel.balance.value = data.player.balance
         }
 
         click = false
@@ -208,6 +232,7 @@ fun SpinButton(viewmodel: ViewModel) {
 
     Button(onClick = {
         data.currentfield = randomint(data.wheel.fieldarray.size)
+        viewmodel.keyboardvisibility.value = 1f
         if (data.wheel.fieldarray[data.currentfield].bankrupt){
             data.player.balance = 0
         }
@@ -233,7 +258,7 @@ fun EndMessage() {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally) {
         Text(
-            text = stringResource(R.string.loss) + stringResource(R.string.playagain),
+            text = stringResource(R.string.loss) + " " + stringResource(R.string.playagain),
             fontSize = 20.sp,
             textAlign = TextAlign.Center,
             modifier = Modifier.width(400.dp),
@@ -242,6 +267,25 @@ fun EndMessage() {
         StartGameButton()
     }
 }
+
+@Composable
+fun WinMessage() {
+    Column(modifier = Modifier
+        .fillMaxWidth()
+        .fillMaxHeight(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally) {
+        Text(
+            text = stringResource(R.string.win) + " " + data.player.balance + ". " + stringResource(R.string.playagain),
+            fontSize = 20.sp,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.width(400.dp),
+            color = Color.White
+        )
+        StartGameButton()
+    }
+}
+
 
 @Preview(showBackground = true)
 @Composable

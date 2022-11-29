@@ -33,6 +33,9 @@
         <activity
             android:name=".WinScreen"
             ></activity>
+        <activity
+            android:name=".LooseScreen"
+            ></activity>
     </application>
 
 </manifest>

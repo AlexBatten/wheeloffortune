@@ -11,6 +11,8 @@ class ViewModel {
 
     var wheelclick: MutableState<Boolean> = mutableStateOf(false)
 
+    var keyboardvisibility: MutableState<Float> = mutableStateOf(1f)
+
 
 
 }

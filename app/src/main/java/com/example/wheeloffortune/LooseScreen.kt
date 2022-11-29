@@ -12,12 +12,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.wheeloffortune.ui.theme.WheeloffortuneTheme
 
-class WinScreen : ComponentActivity() {
+class LooseScreen : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -27,24 +26,9 @@ class WinScreen : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = Color.DarkGray
                 ) {
-                    WinMessage()
+                    EndMessage()
                 }
             }
         }
     }
 }
-
-@Preview(showBackground = true)
-@Composable
-fun WinScreenPreview() {
-    WheeloffortuneTheme {
-        // A surface container using the 'background' color from the theme
-        Surface(
-            modifier = Modifier.fillMaxSize(),
-            color = Color.DarkGray
-        ) {
-            WinMessage()
-        }
-    }
-}
-
