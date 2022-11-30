@@ -54,6 +54,8 @@ fun Combined() {
 
     var viewmodel = ViewModel()
 
+    viewmodel.addbooleans()
+
     Column(modifier = Modifier
         .fillMaxWidth()
         .fillMaxHeight(),
@@ -99,7 +101,7 @@ fun WordField(viewmodel: ViewModel) {
 fun WordButton(char: Char, viewmodel: ViewModel, index: Int){
 
     var index = index
-    var show = viewmodel.wordvisibility.value[index]
+    var show = viewmodel.wordvisibility[index]
 
     var charactercolor by remember {mutableStateOf(Color.DarkGray)}
 
@@ -188,7 +190,7 @@ fun KeyboardButton(char: Char, viewmodel: ViewModel){
             for (i in data.wordarray.chararray.indices) {
                 if (data.wordarray.chararray[i] == char){
                     data.wordarray.guessed[i] = true
-                    viewmodel.wordvisibility.value[i] = true
+                    viewmodel.wordvisibility[i] = true
                     data.player.balance = data.player.balance + data.wheel.fieldarray[data.currentfield].point
                     viewmodel.balance.value = data.player.balance
                 }
@@ -275,7 +277,7 @@ fun WinMessage() {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally) {
         Text(
-            text = stringResource(R.string.win) + " " + data.player.balance + ". " + stringResource(R.string.playagain),
+            text = stringResource(R.string.win) + " " + "\n" + data.player.balance + "\n" + stringResource(R.string.playagain),
             fontSize = 20.sp,
             textAlign = TextAlign.Center,
             modifier = Modifier.width(400.dp),

@@ -15,6 +15,12 @@ class ViewModel {
 
     var keyboardvisibility: MutableState<Float> = mutableStateOf(1f)
 
-    var wordvisibility: MutableState<BooleanArray> = mutableStateOf(data.wordarray.guessed)
+    var wordvisibility: MutableList<Boolean> = mutableStateListOf()
+
+    fun addbooleans(){
+        for (i in data.wordarray.guessed) {
+        wordvisibility.add(i)
+        }
+    }
 
 }
