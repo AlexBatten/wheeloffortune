@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.wheeloffortune.ui.theme.WheeloffortuneTheme
@@ -29,6 +30,20 @@ class LooseScreen : ComponentActivity() {
                     EndMessage()
                 }
             }
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun LooseScreenPreview() {
+    WheeloffortuneTheme {
+        // A surface container using the 'background' color from the theme
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = Color.DarkGray
+        ) {
+            EndMessage()
         }
     }
 }

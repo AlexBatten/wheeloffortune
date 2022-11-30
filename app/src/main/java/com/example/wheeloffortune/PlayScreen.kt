@@ -67,7 +67,7 @@ fun Combined() {
             CategoryField()
         }
         Row(modifier = Modifier.padding(0.dp,0.dp,0.dp,50.dp)) {
-            WordField()
+            WordField(viewmodel)
         }
         SpinButton(viewmodel)
 
@@ -83,32 +83,30 @@ fun CategoryField() {
     Text(text = stringResource(R.string.current_category) + " " + data.currentcategory, fontSize = 20.sp, textAlign = TextAlign.Center, modifier = Modifier.width(400.dp), color = Color.White)
 }
 
-//TODO: HIDE CHAR IF NOT GUESSED
+//TODO: UNHIDE CHAR IF GUESSED
 
 @Composable
-fun WordField() {
+fun WordField(viewmodel: ViewModel) {
 
     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center){
-        for (i in data.wordarray.chararray) {
-            WordButton(i, Color.DarkGray)
+        for (i in data.wordarray.chararray.indices) {
+            WordButton(data.wordarray.chararray[i], viewmodel, i)
         }
     }
-
 }
+
 @Composable
-fun WordButton(char: Char, characterColor: Color){
+fun WordButton(char: Char, viewmodel: ViewModel, index: Int){
+
+    var index = index
+    var show = viewmodel.wordvisibility.value[index]
 
     var charactercolor by remember {mutableStateOf(Color.DarkGray)}
-    charactercolor = characterColor
 
-    Button(onClick = {/*donothing*/}, colors = ButtonDefaults.buttonColors(backgroundColor = Color.DarkGray), shape = RoundedCornerShape(0.dp), border = BorderStroke(1.dp, Color.White), enabled = true,  modifier = Modifier
+    Button(onClick = {/*donothing*/}, colors = ButtonDefaults.buttonColors(backgroundColor = Color.DarkGray), shape = RoundedCornerShape(0.dp), border = BorderStroke(1.dp, Color.White), enabled = !show,  modifier = Modifier
         .height(36.dp)
         .width(36.dp)) {
         Text(text = char.toString(), Modifier.padding(0.dp,0.dp,0.dp,0.dp), color = charactercolor, fontSize = 10.sp)
-    }
-
-    fun changecolor() {
-        charactercolor = Color.White
     }
 
 }
@@ -190,6 +188,7 @@ fun KeyboardButton(char: Char, viewmodel: ViewModel){
             for (i in data.wordarray.chararray.indices) {
                 if (data.wordarray.chararray[i] == char){
                     data.wordarray.guessed[i] = true
+                    viewmodel.wordvisibility.value[i] = true
                     data.player.balance = data.player.balance + data.wheel.fieldarray[data.currentfield].point
                     viewmodel.balance.value = data.player.balance
                 }
