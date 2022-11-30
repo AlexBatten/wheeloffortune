@@ -136,7 +136,7 @@ fun KeyboardField(viewmodel: ViewModel) {
 
     Column(modifier = Modifier.alpha(viewmodel.keyboardvisibility.value)
     ) {
-        Row{
+        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center){
             KeyboardButton('Q', viewmodel)
             KeyboardButton('W', viewmodel)
             KeyboardButton('E', viewmodel)
@@ -149,7 +149,7 @@ fun KeyboardField(viewmodel: ViewModel) {
             KeyboardButton('P', viewmodel)
             KeyboardButton('Å', viewmodel)
         }
-        Row{
+        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center){
             KeyboardButton('A', viewmodel)
             KeyboardButton('S', viewmodel)
             KeyboardButton('D', viewmodel)
