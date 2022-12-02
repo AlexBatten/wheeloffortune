@@ -182,6 +182,8 @@ fun KeyboardButton(char: Char, viewmodel: ViewModel){
 
     Button(onClick = {
 
+        //enable the spin wheel button and hide the keyboard
+
         viewmodel.wheelclick.value = true
         viewmodel.keyboardvisibility.value = 0f
 
